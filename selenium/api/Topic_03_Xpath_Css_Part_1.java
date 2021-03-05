@@ -104,10 +104,10 @@ public class Topic_03_Xpath_Css_Part_1 {
   
   @Test
   public void TC_08_Xpath() {
-	// <button id="send2" class="button" name="send" title="Login" type="submit">
-    driver.findElement(By.xpath("//button[@id='send2']")).isDisplayed();
-    driver.findElement(By.xpath("//button[@name='send']")).isDisplayed();
-    driver.findElement(By.xpath("//button[@title='Login']")).isDisplayed();
+	  // <button id="send2" class="button" name="send" title="Login" type="submit">
+	  driver.findElement(By.xpath("//button[@id='send2']")).isDisplayed();
+	  driver.findElement(By.xpath("//button[@name='send']")).isDisplayed();
+	  driver.findElement(By.xpath("//button[@title='Login']")).isDisplayed();
   }
  
   
