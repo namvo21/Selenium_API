@@ -114,7 +114,23 @@ public class Topic_04_Xpath_Css_Part_2 {
   }
   @Test
   public void TC_05_LoginWithVadlidEmailAndPassword() {
+	  // Input vào Email textbox
+	  driver.findElement(emailTextbox).sendKeys("vhnam267751@gmail.com");
 	  
+	  // Input vào Password textbox
+	  driver.findElement(passwordTextbox).sendKeys("123456");
+	  
+	  // Click vào Login button
+	  driver.findElement(loginButton).click();
+	  
+	  // Verify password error message displayed
+	  // 2: Assert Equal (điều kiện thực tế/ mong đợi)
+	  Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']//h1")).getText(), "MY DASHBOARD");
+	  Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, Nam Vo!");
+	
+	  String ContactInfo = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
+	  Assert.assertTrue(ContactInfo.contains("Nam Vo"));
+	  Assert.assertTrue(ContactInfo.contains("vhnam267751@gmail.com"));
   }
   
   @Test
