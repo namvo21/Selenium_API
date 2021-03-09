@@ -123,7 +123,7 @@ public class Topic_04_Xpath_Css_Part_2 {
 	  // Click vào Login button
 	  driver.findElement(loginButton).click();
 	  
-	  // Verify password error message displayed
+	  // Verify Contact info in the Dashboard
 	  // 2: Assert Equal (điều kiện thực tế/ mong đợi)
 	  Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']//h1")).getText(), "MY DASHBOARD");
 	  Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, Nam Vo!");
