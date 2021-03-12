@@ -95,8 +95,7 @@ public class Topic_06_Web_Element {
 	  
 	  // Click on element to deselect
 	  clickToElement(javaCheckboxBy);
-	  Assert.assertFalse(isElementSelected(javaCheckboxBy));
-	 
+	  Assert.assertFalse(isElementSelected(javaCheckboxBy)); 
   }
   
   public boolean isElementDisplayed(By by) {
