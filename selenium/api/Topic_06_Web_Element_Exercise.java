@@ -19,98 +19,131 @@ public class Topic_06_Web_Element_Exercise {
   // Instance đại diện cho 1 thư viện/ Class/ Interface nào đó	
   WebDriver driver; 
   WebElement element;
+  By emailTextboxBy = By.id("email");
+  By educationTextareaBy = By.id("edu");
+  By ageUnder18RadioBy = By.id("under_18");
+  By job1DropdownBy = By.id("job1");
+  By job2DropdownBy = By.id("job2");
+  By developmentCheckboxBy = By.id("development");
+  By slider1By = By.id("slider-1");
+  By passwordTextboxBy = By.id("password");
+  By agedisableRadioBy = By.id("radio-disabled");
+  By bioTextareaBy = By.id("bio");
+  By job3DropdownBy = By.id("job3");
+  By interestsCheckboxBy = By.id("check-disbaled");
+  By slider2By = By.id("slider-2");
+  By javaCheckboxBy = By.id("java");
+  
   
   @BeforeClass
   public void beforeClass() {
 	  // 1 - Mở browser lên
 	  driver = new FirefoxDriver();
-	  driver.get("https://demo.nopcommerce.com/");
+	  driver.get("https://automationfc.github.io/basic-form/index.html");
   }	
 	
   @Test
-  public void TC_01_() {
-	  // Nếu dùng 1 lần thì tương tác trực tiếp
-	  driver.findElement(By.xpath(""));
+  public void TC_01_Check_Displayed() {
 	  
-	  // Khai báo biến - dùng được nhiêu lần
-	  // WebElement emailTextbox = driver.findElement(By.xpath("//input[@id='email']"));
-	  // emailTextbox.clear();
-	  // emailTextbox.click();
-	  // emailTextbox.sendKeys("");
+	  // Email textbox
+	  if(isElementDisplayed(emailTextboxBy)) {
+		 sendKeyToElement(emailTextboxBy, "Automation Testing");
+	  }
 	  
-	  element = driver.findElement(By.xpath("//input[@id='small-searchterms']"));
+	  // Education textarea
+	  if(isElementDisplayed(educationTextareaBy)) {
+		  sendKeyToElement(educationTextareaBy, "Automation Testing");
+	  }
 	  
-	  // Nhập dữ liệu vào 1 textbox/ textarea/ dropdown (editable)
-	  element.sendKeys("Dell XPS 13");
-	  sleepInSeconds(2);
+	  // Age Under 18 radio button
+	  if(isElementDisplayed(ageUnder18RadioBy)) {
+		  clickToElement(ageUnder18RadioBy);
+	  } 
+  }
+  
+  @Test
+  public void TC_02_Check_Enabled() {
 	  
-	  // Xóa dữ liệu đang có trong 1 textbox/ textarea/ dropdown (editable)
+	  // Elements are enabled
+	  Assert.assertTrue(isElementEnabled(emailTextboxBy));
+	  Assert.assertTrue(isElementEnabled(ageUnder18RadioBy));
+	  Assert.assertTrue(isElementEnabled(educationTextareaBy));
+	  Assert.assertTrue(isElementEnabled(job1DropdownBy));
+	  Assert.assertTrue(isElementEnabled(job2DropdownBy));
+	  Assert.assertTrue(isElementEnabled(developmentCheckboxBy));
+	  Assert.assertTrue(isElementEnabled(slider1By));
+	  
+	  
+	  // Elements are disabled
+	  Assert.assertFalse(isElementEnabled(passwordTextboxBy));
+	  Assert.assertFalse(isElementEnabled(agedisableRadioBy));
+	  Assert.assertFalse(isElementEnabled(bioTextareaBy));
+	  Assert.assertFalse(isElementEnabled(job3DropdownBy));
+	  Assert.assertFalse(isElementEnabled(interestsCheckboxBy));
+	  Assert.assertFalse(isElementEnabled(slider2By));	  
+  }
+  
+  @Test
+  public void TC_03_Check_Selected() {
+	  // Click on elements to select
+	  clickToElement(ageUnder18RadioBy);
+	  clickToElement(javaCheckboxBy);
+	  
+	  // Elements are selected
+	  Assert.assertTrue(isElementSelected(ageUnder18RadioBy));
+	  Assert.assertTrue(isElementSelected(javaCheckboxBy));
+	  
+	  // Click on element to deselect
+	  clickToElement(javaCheckboxBy);
+	  Assert.assertFalse(isElementSelected(javaCheckboxBy)); 
+  }
+  
+  public boolean isElementDisplayed(By by) {
+	  WebElement element = driver.findElement(by);
+	  
+	  if(element.isDisplayed()) {
+		  System.out.println("Element ----" + by + "---- is displayed");
+		  return true;
+	  }
+	  else {
+		  System.out.println("Element ----" + by + "---- is not displayed");
+		  return false;
+	  }
+	  
+  }
+  
+  public void sendKeyToElement(By by, String value) {
+	  WebElement element = driver.findElement(by);
 	  element.clear();
-	  sleepInSeconds(2);
-	  
-	  element.sendKeys("Macbook Pro 2015");
-	  sleepInSeconds(2);
-	  element.sendKeys("Dell XPS 15");
-	  sleepInSeconds(2);
-	  
-	  
-	  // Đi tìm element (số ít - 1) - nếu tìm thấy nhiều hơn 1 thì sẽ lấy cái đầu tiên để tương tác
-	  // element.findElement(By.xpath(""));
-	  
-	  // Đi tìm element (số nhiều - >= 1)
-	  // element.findElements(By.xpath(""));
-	 
-	  // Tìm element và trả về duy nhất 1
-	  // element.findElements(By.xpath("")).get(0);
-	  // element.findElement(By.xpath(""));
-	  
-	  String searchStorevalue = element.getAttribute("placeholder");
-	  System.out.println("Get  attribute of Search Store = " + searchStorevalue);
-	  
-	  // Color/ Font/ Size (GUI)
-	  element = driver.findElement(By.cssSelector(".search-box-button"));
-	  String searchBackgroundColor = element.getCssValue("background-color");
-	  System.out.println("Get  background of Search Store = " + searchBackgroundColor);
-	  
-	  String searchButtonTag = element.getTagName();
-	  System.out.println("Get  tag name of Search Store = " + searchButtonTag);
-	  
-	  // Link/ Label/ Span
-	  element = driver.findElement(By.xpath("//div[@class='topic-block-title']/h2"));
-	  System.out.println("Welcome text = " + element.getText());
-	  
-	  // Kiểm tra 1 element có hiển thị để tương tác lên được hay không (all elements)
-	  Assert.assertTrue(element.isDisplayed());
-	   
-	  // Kiểm tra 1 element có enable để tương tác hay không (all elements)
-	  Assert.assertTrue(element.isEnabled());
-	  
-	  // Kiểm tra 1 element có được chọn để tương tác hay không: radio/ checkbox
-	  // Assert.assertTrue(element.isSelected());
-	  
-	  // Nếu như element đang tương tác nằm trong form thì có thể dùng hàm này
-	  // element.submit();
+	  element.sendKeys(value);
   }
   
-  public void sleepInSeconds(long timeout){
-	  try {
-		Thread.sleep(timeout*1000);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-  } 
-  
-  @Test
-  public void TC_02_() {
-	 
+  public void clickToElement(By by) {
+	  WebElement element = driver.findElement(by);
+	  element.click();
   }
   
-  @Test
-  public void TC_03_() {
-	 
+  public boolean isElementEnabled(By by) {
+	  WebElement element = driver.findElement(by);
+	  if(element.isEnabled()) {
+		  System.out.println("Element ----" + by + "---- is enabled");
+		  return true;
+	  } else {
+		  System.out.println("Element ----" + by + "---- is disabled");
+		  return false;
+	  }
   }
  
+  public boolean isElementSelected(By by) {
+	  WebElement element = driver.findElement(by);
+	  if(element.isSelected()) {
+		  System.out.println("Element ----" + by + "---- is selected");
+		  return true;
+	  } else {
+		  System.out.println("Element ----" + by + "---- is deselected");
+		  return false;
+	  }
+  }
   
   @AfterClass
   public void afterClass() {
