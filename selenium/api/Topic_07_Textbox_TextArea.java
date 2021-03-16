@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
-public class Topic_09_Textbox_TextArea {
+public class Topic_07_Textbox_TextArea {
   // Toàn cục: Global in class
   private WebDriver driver;
   private String email, userID, password, loginPageUrl, customerID;
