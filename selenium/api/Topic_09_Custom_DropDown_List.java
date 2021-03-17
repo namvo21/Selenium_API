@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -21,20 +22,20 @@ public class Topic_09_Custom_DropDown_List {
   
   private WebDriver driver;
   private WebDriverWait explicitWait;
-  
+  private JavascriptExecutor jsExcecutor;
   
  
   @BeforeClass
   public void beforeClass() {
 	  driver = new FirefoxDriver(); 
 	  explicitWait = new WebDriverWait(driver, 15);
+	  jsExcecutor = (JavascriptExecutor)driver;
 	  
 	  driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
  	  driver.manage().window().maximize();
 	  
   }	
 	
-  @Test
   public void TC_01_JQuery() {
 	  driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
 	  
@@ -51,14 +52,23 @@ public class Topic_09_Custom_DropDown_List {
 	  Assert.assertTrue(isElementDisplayed("//span[@id='number-button']//span[@class='ui-selectmenu-text' and text()='16']"));
   }
   
-  @Test
-  public void TC_02_() {
+  
+  public void TC_02_React() {
 	 
+	  driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+	  selectItemInDropdownList("//i[@class='dropdown icon']", "//div[@role='option']//span", "Elliot Fu");
+	  Assert.assertTrue(isElementDisplayed("//div[@role='listbox']//div[@class='divider text' and text()='Elliot Fu']"));
+	  
+	  selectItemInDropdownList("//i[@class='dropdown icon']", "//div[@role='option']//span", "Christian");
+	  Assert.assertTrue(isElementDisplayed("//div[@role='listbox']//div[@class='divider text' and text()='Christian']"));
   }
   
   @Test
-  public void TC_03_() {
-	//ul[@id='number-menu']//div
+  public void TC_03_Angular() {
+	  driver.get("https://ej2.syncfusion.com/angular/demos/?_ga=2.262049992.437420821.1575083417-524628264.1575083417#/material/drop-down-list/data-binding");
+	  selectItemInDropdownList("//*[@id='games']//span[contains(@class,text()='e-search-icon')]", "//ul[@id='games_options']//li", "Football");
+	  Assert.assertEquals(getTextByJS("select[name='games' option]"), "Football");
+	
   }
  
   public void selectItemInDropdownList(String parentXpath, String childXpath, String expectedItem) {
@@ -107,6 +117,14 @@ public class Topic_09_Custom_DropDown_List {
 		  return false;
 	  }
   }
+  
+  public String getTextByJS(String cssLocator)
+  {
+	  String text = (String)jsExcecutor.executeScript("return document.querySelector(\"" + cssLocator + "\").textContent"); 
+	  System.out.println("Text = " +text);
+	  return text;
+  }
+  
   
   @AfterClass
   public void afterClass() {
