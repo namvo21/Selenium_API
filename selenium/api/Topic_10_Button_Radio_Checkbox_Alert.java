@@ -48,6 +48,7 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
   }
   
   public void TC_02_Default_Radio_Button_Checkbox() throws Exception {
+	 
 	 driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
 	 By dualZoneCheckbox = By.xpath("//label[text()='Dual-zone air conditioning']//preceding-sibling::input");
 	 
@@ -64,6 +65,18 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	 
 	 // Verify un-selected success
 	 Assert.assertFalse (driver.findElement(dualZoneCheckbox).isSelected());
+	 
+	 driver.get("https://demos.telerik.com/kendo-ui/radiobutton/index");
+	 By carEngineRadio = By.xpath("//input[@id='engine3']//following-sibling::label");
+	 driver.findElement(carEngineRadio).click();
+	 
+	 boolean status = driver.findElement(carEngineRadio).isDisplayed();
+	 
+	 if(status == false) {
+		 driver.findElement(carEngineRadio).click();
+	 }
+	 
+	 
   }
   
   public void TC_03_Custom_Radio_Button_Checkbox() throws Exception {
@@ -165,7 +178,6 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	  // Verify result
 	  Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
   }
- 
   
   @AfterClass
   public void afterClass() {
