@@ -2,6 +2,8 @@ package api;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +20,7 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
   private WebDriver driver;
   public Actions actions;
   private JavascriptExecutor jsExcecutor;
+  Alert alert;
   
  
   @BeforeClass
@@ -30,7 +33,6 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
  	  driver.manage().window().maximize();	  
   }	
 	
-  @Test
   public void TC_01_Button() throws Exception {
 	  driver.get("https://www.bhphotovideo.com/");
 	  
@@ -45,7 +47,6 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	  Assert.assertTrue(driver.findElement(By.xpath("//div[@class='lf-section lf-login-section']")).isDisplayed());
   }
   
-  @Test
   public void TC_02_Default_Radio_Button_Checkbox() throws Exception {
 	 driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
 	 By dualZoneCheckbox = By.xpath("//label[text()='Dual-zone air conditioning']//preceding-sibling::input");
@@ -65,16 +66,104 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	 Assert.assertFalse (driver.findElement(dualZoneCheckbox).isSelected());
   }
   
-  @Test
   public void TC_03_Custom_Radio_Button_Checkbox() throws Exception {
 	 driver.get("https://material.angular.io/components/radio/examples");
 	 
-	 By summerRadio = By.xpath("//input[@value='Summer']");
+	 // Không click được nhưng verify được (isSelected)
+	 By summerInputRadio = By.xpath("//input[@value='Summer']");
+	 
+	 // Click được nhưng verify không được
+	 // By summerDivRadio = By.xpath("//input[@value='Summer']/preceding-sibling::span[contains(@class,'outer-circle')]");
+	 
 	 // Click to Summer radio button
-	 driver.findElement(summerRadio).click();
+	 jsExcecutor.executeScript("arguments[0].click() ", driver.findElement(summerInputRadio));
 	 Thread.sleep(3000);
 	 
-	 Assert.assertTrue(driver.findElement(summerRadio).isSelected());
+	 Assert.assertTrue(driver.findElement(summerInputRadio).isSelected());
+  }
+  
+  public void TC_04_Create_Alert() throws Exception {
+	 // driver.get("https://automationfc.github.io/basic-form/index.html");
+	  driver.get("https://www.google.com/#spf=1616116513290");
+	 
+	 // Create new Alert accept
+	 jsExcecutor.executeScript("alert('Create a new accept alert');");
+	 Thread.sleep(3000);
+	 
+	 // Switch qua Alert
+	 alert = driver.switchTo().alert();
+	 Assert.assertEquals(alert.getText(), "Create a new accept alert");
+	 
+	 // Accept (3)
+	 alert.accept();
+	 
+	 // Create new Confirm alert
+	 jsExcecutor.executeScript("confirm('Create a new confirm alert');");
+	 Thread.sleep(3000);
+	 
+	 // Switch qua Alert
+	 alert = driver.switchTo().alert();
+	 Assert.assertEquals(alert.getText(), "Create a new confirm alert");
+	 // Cancel (Confirm/ Prompt)
+	 Assert.assertEquals(alert.getText(), "Create a new confirm alert");
+	 alert.dismiss();
+	
+	 // Create new Confirm alert
+	 jsExcecutor.executeScript("prompt('Create a new prompt alert');");
+	 Thread.sleep(3000);
+	 
+	 // Switch qua Alert
+	 alert = driver.switchTo().alert();
+	 // Sendkey (Prompt)
+	 alert.sendKeys("Selenium");
+	 Thread.sleep(3000);
+	 
+	 Assert.assertEquals(alert.getText(), "Create a new prompt alert");  
+	 alert.accept();
+  }
+  
+  public void TC_05_Prompt_Alert() throws Exception {
+	 
+	  driver.get("https://automationfc.github.io/basic-form/index.html");
+	  String name = "JavaScript";
+	  driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+	  
+	  alert = driver.switchTo().alert();
+	  
+	  // Verify title
+	  Assert.assertEquals(alert.getText(), "I am a JS prompt");
+	  
+	  // Sendkey
+	  alert.sendKeys(name);
+	  Thread.sleep(3000);
+	  
+	  // Accept
+	  alert.accept();
+	  
+	  // Verify result
+	  Assert.assertEquals(driver.findElement(By.xpath("//p[@id='result']")).getText(), "You entered: " + name);
+  }
+  
+  public void TC_06_Authen_Alert() throws Exception {
+		 
+	  String username = "admin";
+	  String password = "admin";
+	  
+	  driver.get("http://" + username + ":" + password + "@" +"the-internet.herokuapp.com/basic_auth");
+	   
+	  // Verify result
+	  Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+  }
+  
+  public void TC_07_Authen_Alert() throws Exception {
+		 
+	  String username = "admin";
+	  String password = "admin";
+	  
+	  driver.get("http://" + username + ":" + password + "@" +"the-internet.herokuapp.com/basic_auth");
+	   
+	  // Verify result
+	  Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
   }
  
   
