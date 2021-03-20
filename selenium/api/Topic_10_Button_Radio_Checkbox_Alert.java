@@ -7,6 +7,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -47,6 +48,7 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	  Assert.assertTrue(driver.findElement(By.xpath("//div[@class='lf-section lf-login-section']")).isDisplayed());
   }
   
+  @Test
   public void TC_02_Default_Radio_Button_Checkbox() throws Exception {
 	 
 	 driver.get("https://demos.telerik.com/kendo-ui/checkbox/index");
@@ -79,6 +81,7 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	 
   }
   
+  @Test
   public void TC_03_Custom_Radio_Button_Checkbox() throws Exception {
 	 driver.get("https://material.angular.io/components/radio/examples");
 	 
@@ -89,7 +92,7 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	 // By summerDivRadio = By.xpath("//input[@value='Summer']/preceding-sibling::span[contains(@class,'outer-circle')]");
 	 
 	 // Click to Summer radio button
-	 jsExcecutor.executeScript("arguments[0].click() ", driver.findElement(summerInputRadio));
+	 ClickByJS(summerInputRadio);
 	 Thread.sleep(3000);
 	 
 	 Assert.assertTrue(driver.findElement(summerInputRadio).isSelected());
@@ -177,6 +180,30 @@ public class Topic_10_Button_Radio_Checkbox_Alert {
 	   
 	  // Verify result
 	  Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]")).isDisplayed());
+  }
+  
+  public boolean isElementEnabled(By by) {
+	  WebElement element = driver.findElement(by);
+	  if(element.isEnabled())
+	  {
+		  System.out.println("Element is enabled :" + by);
+		  return true;
+	  }
+	  else
+	  {
+		  System.out.println("Element is disabled :" + by);
+		  return false;
+	  }
+  }
+  
+  public void removeDisabledAttributeByJS(By by){
+	  WebElement element = driver.findElement(by);
+	  jsExcecutor.executeScript("arguments[0].removeAttribute('disable')", element);
+  }
+  
+  public void ClickByJS(By by){
+	  WebElement element = driver.findElement(by);
+	  jsExcecutor.executeScript("arguments[0].click()", element);
   }
   
   @AfterClass
