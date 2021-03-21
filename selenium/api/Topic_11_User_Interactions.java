@@ -58,7 +58,7 @@ public class Topic_11_User_Interactions {
 	  Assert.assertTrue(driver.findElement(By.xpath("//div[@class='ui-tooltip-content' and text()='We ask for your age only for statistical purposes.']")).isDisplayed());
   }
   
-  @Test
+  
   public void TC_03_Hover() {
 	  
 	  driver.get("https://hn.telio.vn/");
@@ -116,6 +116,48 @@ public class Topic_11_User_Interactions {
 	  for (WebElement item : selectedItems) {
 		  	System.out.println(item.getText());
 	  }
+  }
+  
+  public void TC_06_Double_Click() {
+	  driver.get("https://automationfc.github.io/basic-form/index.html");
+	  
+	  actions.doubleClick(driver.findElement(By.xpath("//button[text()='Double click me']"))).perform();
+	  sleepInSeconds(3);
+	  
+	  Assert.assertEquals(driver.findElement(By.xpath("//p[@id='demo']")).getText(), "Hello Automation Guys!");
+	  
+  }
+  
+  
+  public void TC_07_Right_Click() {
+	  driver.get("http://swisnl.github.io/jQuery-contextMenu/demo.html");
+	  
+	  actions.contextClick(driver.findElement(By.xpath("//span[text()='right click me']"))).perform();
+	  sleepInSeconds(3);
+	  
+	  actions.moveToElement(driver.findElement(By.xpath("//li[contains(@class,'context-menu-icon-quit')]"))).perform();
+	  sleepInSeconds(3);
+	  
+	  Assert.assertTrue(driver.findElement(By.xpath("//li[contains(@class,'context-menu-icon-quit') and contains(@class,'context-menu-hover')]")).isDisplayed());
+	  sleepInSeconds(3);
+	  
+	  actions.click(driver.findElement(By.xpath("//li[contains(@class,'context-menu-icon-quit')]"))).perform();
+	  sleepInSeconds(3);
+	  
+	  driver.switchTo().alert().accept();
+	  sleepInSeconds(3);
+  }
+  
+  @Test
+  public void TC_08_Drag_And_Drop() {
+	  driver.get("https://demos.telerik.com/kendo-ui/dragdrop/index");
+	  
+	  WebElement sourceCircle = driver.findElement(By.xpath("//div[@id='draggable']"));
+	  WebElement targetCircle = driver.findElement(By.xpath("//div[@id='droptarget']"));
+	  
+	  actions.dragAndDrop(sourceCircle, targetCircle).perform();
+	  sleepInSeconds(3);
+	  Assert.assertEquals(targetCircle.getText(), "You did great!");
   }
  
   public void sleepInSeconds(long timeout){
