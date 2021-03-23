@@ -27,26 +27,71 @@ public class Topic_12_Popup_Iframe {
  	  driver.manage().window().maximize();
 	  
   }	
-	
+
   public void TC_01_Popup() {
-	  driver.get("https://www.javacodegeeks.com/");
+	  driver.get("https://www.zingpoll.com/");
+	  driver.findElement(By.xpath("//a[@id='Loginform']")).click();
+	  sleepInSeconds(3);
 	  
 	  // Nếu như mà hiển thị thì close popup
 	  // Nếu như mà không hiển thị thì qua step tiếp theo
 	   
 	  // Check popup displayed
-	  if(isElementDisplayed("//div[@id='ulp-layer-1112']"))
+	  if(isElementDisplayed("//div[@class='modal-dialog modal_dialog_custom']"))
 	  {
-		  driver.findElement(By.xpath("//a[text()='No Thanks!']//parent::div")).click();
+		  driver.findElement(By.xpath("//button[@class='close']")).click();
 		  sleepInSeconds(3);
 	  }
 	  
 	  // Check popup un-displayed
-	  Assert.assertFalse(driver.findElement(By.xpath("//div[@id='ulp-layer-1112']")).isDisplayed());
+	  Assert.assertFalse(driver.findElement(By.xpath("//div[@class='modal-dialog modal_dialog_custom']")).isDisplayed());
+  }
+  
+  public void TC_02_Popup() {
+	  driver.get("https://bni.vn/");
+	  sleepInSeconds(3);
+	  
+	  // Nếu như mà hiển thị thì close popup
+	  // Nếu như mà không hiển thị thì qua step tiếp theo
+	   
+	  // Check popup displayed
+	  if(isElementDisplayed("//div[contains(@class,'sgpb-slideInUp')]"))
+	  {
+		  driver.findElement(By.xpath("//img[@class='sgpb-popup-close-button-1']")).click();
+		  sleepInSeconds(3);
+	  }
   }
   
   @Test
-  public void TC_02_Iframe() {
+  public void TC_03_Popup() {
+	  
+	  driver.get("https://blog.testproject.io/");
+	   
+	  // Case 1 - Nếu như mà hiển thị thì close popup
+	  // Case 2 - Nếu như mà không hiển thị thì qua step tiếp theo
+	   
+	  sleepInSeconds(10);
+	  
+	  // Check popup displayed
+	  if(isElementDisplayed("//div[@class='mailch-wrap']"))
+	  {
+		  System.out.println("Go to if statement");
+		  driver.findElement(By.xpath("//div[@id='close-mailch']")).click();
+		  sleepInSeconds(3);
+	  }
+	  
+	  // Check popup un-displayed
+	  Assert.assertFalse(driver.findElement(By.xpath("//div[@class='mailch-wrap']")).isDisplayed());
+	  
+	  //driver.findElement(By.xpath("//form[@class='search-form']//input[@class='search-field']")).sendKeys("Selenium");
+	  //sleepInSeconds(3);
+	  //driver.findElement(By.xpath("//span[@class='glass']")).click();
+	  
+	  //String pageTitle = driver.findElement(By.xpath("//h2[@class='page-title']//span")).getText();
+	  //System.out.println(pageTitle);
+  }
+  
+  public void TC_04_Iframe() {
 	 driver.get("https://kyna.vn/");
 	 
 	 // Facebook IFrame
