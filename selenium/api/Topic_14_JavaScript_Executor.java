@@ -154,19 +154,26 @@ public class Topic_14_JavaScript_Executor {
 	  clickToElementByJS("//input[@class='btn']");
 	  
 	  String fnameMessage = getElementValidationMessage("//input[@id='fname']");
-	  System.out.println(fnameMessage);
+	  Assert.assertEquals(fnameMessage, "Please fill out this field.");
+	  
 	  sendkeyToElementByJS("//input[@id='fname']", "Nam Vo");
 	  sleepInSeconds(2);
 	  
 	  String passMessage = getElementValidationMessage("//input[@id='pass']");
-	  System.out.println(passMessage);
+	  Assert.assertEquals(passMessage, "Please fill out this field.");
+	  
 	  sendkeyToElementByJS("//input[@id='pass']", "123456");
 	  sleepInSeconds(2);
 	  
 	  String emMessage = getElementValidationMessage("//input[@id='em']");
-	  System.out.println(emMessage);
+	  Assert.assertEquals(emMessage, "Please fill out this field.");
+	  
 	  sendkeyToElementByJS("//input[@id='em']", "selenium@gmail.com");
 	  sleepInSeconds(2);
+	  
+	  String addMessage = getElementValidationMessage("//select[@required]");
+	  Assert.assertEquals(addMessage, "Please select an item in the list.");
+	
   }
   
   @AfterClass
@@ -238,6 +245,23 @@ public class Topic_14_JavaScript_Executor {
 			return false;
 		}
 	}
+	
+	  public boolean isElementDisplayed(String xpathLocator)
+	  {
+		  try
+		  {
+			  // 1 - Element hiển thị + có trong DOM
+			  // 2 - Element không hiển thị + có trong DOM
+			  // 3 - Element không hiển thị + không có trong DOM
+			  WebElement element = driver.findElement(By.xpath(xpathLocator));
+			  return element.isDisplayed();
+		  }
+		  catch(Exception e)
+		  {
+			  e.printStackTrace();
+			  return false;
+		  }
+	  }
 	
 	public void sleepInSeconds(long timeout){
 		  try {
