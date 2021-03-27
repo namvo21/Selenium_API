@@ -1,7 +1,5 @@
 package api;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +55,7 @@ public class Topic_04_Xpath_Css_Part_2 {
 	  // 1: Assert True (điều kiện)
 	  boolean status = driver.findElement(By.id("advice-required-entry-email")).getText().equals("This is a required field.");
 	  System.out.println("Status= " + status);
-	  assertTrue(status);
+	  Assert.assertTrue(status);
 	  
 	  // 2: Assert Equal (điều kiện thực tế/ mong đợi)
 	  Assert.assertEquals(driver.findElement(By.id("advice-required-entry-email")).getText(), "This is a required field.");

@@ -2,7 +2,7 @@ package api;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.auth.UsernamePasswordCredentials;
+//import org.apache.http.auth.UsernamePasswordCredentials;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
