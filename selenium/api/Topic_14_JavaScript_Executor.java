@@ -38,8 +38,11 @@ public class Topic_14_JavaScript_Executor {
   @BeforeClass
   public void beforeClass() {
 	  //System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/browserDriver/chromedriver");
-	  // driver = new ChromeDriver();
+	  //driver = new ChromeDriver();
+	  
+	  System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/browserDriver/geckodriver");
 	  driver = new FirefoxDriver();
+	  
 	  jsExecutor = (JavascriptExecutor)driver;
 	  
 	  customerName = "Selenium Online"; 
@@ -147,7 +150,6 @@ public class Topic_14_JavaScript_Executor {
 	  Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Email']/following-sibling::td")).getText(), email);
   }
   
-  @Test
   public void TC_03_Validation_Message() {
 	  navigateToUrlByJS("https://automationfc.github.io/html5/index.html");
 	  
@@ -174,6 +176,18 @@ public class Topic_14_JavaScript_Executor {
 	  String addMessage = getElementValidationMessage("//select[@required]");
 	  Assert.assertEquals(addMessage, "Please select an item in the list.");
 	
+  }
+  
+  @Test
+  public void TC_04_OTP() {
+	  driver.get("https://feature-qa.customer-frontend.staging.aspireapp.com/sg/login?entity=email&email=abcdeddf%40gmail.com&phone=%2B84545645676");
+	  
+	  clickToElementByJS("//div[@class='digit-input__input flex flex-center text-weight-medium cursor-pointer digit-input__input--highlight digit-input__input--blinking']");
+	  sleepInSeconds(2);
+	  highlightElement("//div[@class='digit-input__input flex flex-center text-weight-medium cursor-pointer digit-input__input--highlight digit-input__input--blinking']");
+	  sleepInSeconds(2);
+	  driver.findElement(By.xpath("//div[@class='digit-input__input flex flex-center text-weight-medium cursor-pointer digit-input__input--highlight digit-input__input--blinking']")).sendKeys("1");;
+	  sleepInSeconds(2);
   }
   
   @AfterClass
