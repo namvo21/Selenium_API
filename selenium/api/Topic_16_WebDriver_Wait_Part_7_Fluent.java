@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -24,11 +25,12 @@ public class Topic_16_WebDriver_Wait_Part_7_Fluent {
  
   @BeforeClass
   public void beforeClass() {
+	  
+	  System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/browserDriver/geckodriver");
 	  driver = new FirefoxDriver();
  	  driver.manage().window().maximize();
   }	
 	
-  @Test
   public void TC_01_Fluent_WebDriver() {
 	  driver.get("https://www.facebook.com/");
 	  
@@ -61,7 +63,7 @@ public class Topic_16_WebDriver_Wait_Part_7_Fluent {
 	  // Tổng thời gian chờ là 15s
 	  fluentElement.withTimeout(15, TimeUnit.SECONDS).
 	  	// Tần số mỗi 1s check 1 lần
-	  	pollingEvery(100, TimeUnit.MILLISECONDS).
+	  	pollingEvery(2, TimeUnit.SECONDS).
 	  		// Nếu gặp exception là find không thấy element sẽ bỏ qua
 	  		ignoring(NoSuchElementException.class);
 	  	//Kiểm tra điều kiện	
@@ -69,6 +71,7 @@ public class Topic_16_WebDriver_Wait_Part_7_Fluent {
 	  			public Boolean apply(WebElement element) {
 	  				// Kiểm tra điều kiện countdown = 00
 	  				boolean flag = element.getText().endsWith("00");
+	  				System.out.println("Time = " + element.getText());
 	  				// Return giá trị cho function apply
 	  				return flag;
 	  			}
@@ -76,6 +79,25 @@ public class Topic_16_WebDriver_Wait_Part_7_Fluent {
   		System.out.println("Status = " + status);
   }
    
+  @Test
+  public void TC_03_Fluent_WebElement() {
+	  driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
+	  
+	  driver.findElement(By.xpath("//button[text()='Start']")).click();
+	  
+	  fluentDriver = new FluentWait<WebDriver>(driver);
+	  fluentDriver.withTimeout(6, TimeUnit.SECONDS)
+			  .pollingEvery(1000, TimeUnit.MILLISECONDS)
+			  .ignoring(NoSuchElementException.class);
+	  
+	  WebElement helloWorldText = (WebElement) fluentDriver.until(new Function<WebDriver, WebElement>() {
+		  public WebElement apply(WebDriver driver){
+			  return driver.findElement(By.xpath("//div[@id='finish']//h4"));
+		  }
+	  });
+	  
+	  Assert.assertEquals(helloWorldText.getText(), "Hello World!");
+  }
   
   @AfterClass
   public void afterClass() {
